@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"sync"
 )
 
 func ListFiles() (newList []string) {
@@ -29,28 +30,37 @@ func ListFiles() (newList []string) {
 
 func UploadZip(sess *session.Session) {
 	newList := ListFiles()
+	var wg sync.WaitGroup
+
 	for _, v := range newList {
-		file, err := os.Open(v)
-		if err != nil {
-			fmt.Println(err)
-		}
-		uploader := s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
-			u.PartSize = 10 * 1024 * 1024 // Default File Size is 5MB
-			u.Concurrency = 2
-			u.MaxUploadParts = 10
-		})
-		result, err := uploader.Upload(&s3manager.UploadInput{
-			Bucket: aws.String("myawesomes3bucket-7sq3e2v97bo2"),
-			ACL:    aws.String("public-read"),
-			Body:   file,
-			Key:    aws.String(v),
-		})
-		// In case it fails to upload
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println("File Uploaded :", result.Location)
+		wg.Add(1)
+		files := v
+		go func() {
+			defer wg.Done()
+			file, err := os.Open(files)
+			if err != nil {
+				fmt.Println(err)
+			}
+			uploader := s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
+				u.PartSize = 10 * 1024 * 1024 // Default File Size is 10MB
+				u.Concurrency = 2
+				u.MaxUploadParts = 10
+			})
+			result, err := uploader.Upload(&s3manager.UploadInput{
+				Bucket: aws.String("myawesomes3bucket-7sq3e2v97bo2"),
+				ACL:    aws.String("public-read"),
+				Body:   file,
+				Key:    aws.String(files),
+			})
+			// In case it fails to upload
+			if err != nil {
+				fmt.Println(err)
+			}
+			log.Println("File Uploaded :", result.Location)
+		}()
+
 	}
+	wg.Wait()
 
 }
 
@@ -63,6 +73,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	log.Println("Starting File Upload")
 	UploadZip(sess)
 
 }
