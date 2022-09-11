@@ -23,6 +23,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	//Converting slices of Bytes to a string
+	// Converting slices of Bytes to a string
 	fmt.Println(string(data))
 }
