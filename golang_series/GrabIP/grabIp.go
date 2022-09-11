@@ -19,6 +19,7 @@ func main() {
 		fmt.Printf("Unable to grab the data from the Api Endpoint:%w", err.Error())
 	}
 	data, err := ioutil.ReadAll(resp.Body)
+	// Handle Error
 	if err != nil {
 		fmt.Println(err)
 	}
