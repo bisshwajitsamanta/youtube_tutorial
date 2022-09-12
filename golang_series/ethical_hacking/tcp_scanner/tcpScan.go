@@ -4,14 +4,17 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"sync"
 )
 
-func ScanPort(port int) {
+func ScanPort(port int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	ip := "scanme.nmap.org"
 	address := net.JoinHostPort(ip, strconv.Itoa(port))
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
 		// Port is closed or filtered
+		// Continue you can used here if you are inside for loop else return
 		return
 	}
 	defer conn.Close()
@@ -19,10 +22,11 @@ func ScanPort(port int) {
 }
 
 func main() {
+	var wg sync.WaitGroup
 
-	//for i := 1; i < 100; i++ {
 	for i := range [100]int{} {
-		ScanPort(i)
+		wg.Add(1)
+		go ScanPort(i, &wg)
 	}
-
+	wg.Wait()
 }
