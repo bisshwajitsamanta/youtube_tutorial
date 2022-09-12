@@ -7,6 +7,7 @@ import (
 	"sync"
 )
 
+// ScanPort - Scans the available ports
 func ScanPort(port int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	ip := "scanme.nmap.org"
