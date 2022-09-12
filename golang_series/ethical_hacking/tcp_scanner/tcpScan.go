@@ -24,7 +24,7 @@ func ScanPort(port int, wg *sync.WaitGroup) {
 func main() {
 	var wg sync.WaitGroup
 
-	for i := range [100]int{} {
+	for i := range [65535]int{} {
 		wg.Add(1)
 		go ScanPort(i, &wg)
 	}
