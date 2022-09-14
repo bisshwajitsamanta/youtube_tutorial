@@ -1,7 +1,14 @@
 package main
 
+/*
+	Goal: Printing Odd numbers and Even Numbers sequentially
+		1. Usage of golang channels to print odd and even numbers
+		2. Understand the Logic for Odd and even Number find out
+*/
+
 import "fmt"
 
+// Print - This helps in selecting the odd and even numbers sequentially
 func Print(odd, even <-chan int) {
 	for {
 		select {
