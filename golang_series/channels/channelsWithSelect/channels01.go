@@ -17,10 +17,13 @@ func main() {
 		go checkLink(link, c)
 	}
 
+	// Receive the value of Channel c
 	for range links {
 		fmt.Println(<-c)
 	}
 }
+
+// checkLink - This sends a message to channel about status of http Get
 func checkLink(link string, c chan string) {
 
 	if _, err := http.Get(link); err != nil {
