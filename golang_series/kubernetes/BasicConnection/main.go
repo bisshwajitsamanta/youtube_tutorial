@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
+	"github.com/golang/glog"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"log"
 	"path/filepath"
 )
 
 func main() {
 	client, err := GetClient()
 	if err != nil {
-		log.Fatalln(err)
+		glog.Error(err)
 	}
 	fmt.Printf("Test:%+v", client)
 }
