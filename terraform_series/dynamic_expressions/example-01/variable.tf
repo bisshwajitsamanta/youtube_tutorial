@@ -1,4 +1,8 @@
 variable "count_value" {
   type = bool
-  default = true
+  default = false
+}
+variable "Joined" {
+  type = string
+  default = "Some random Value"
 }
