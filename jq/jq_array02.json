@@ -1,0 +1,18 @@
+[
+    {
+        "username": "bisshwajit",
+        "team": "devops",
+        "location":"india"   
+    },
+    {
+        "username": "samanta",
+        "team": "hr",
+        "location": "usa"
+    },
+    {
+        "username": "payelh",
+        "team": "content_creator",
+        "location": "remote"
+    }
+
+]

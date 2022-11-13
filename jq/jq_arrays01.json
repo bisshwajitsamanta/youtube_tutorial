@@ -1,0 +1,11 @@
+{
+    "Technology":"Devops",
+    "tools used": [
+        "concourse",
+        "jenkins",
+        "kubernetes",
+        "argocd",
+        "git",
+        "terraform"
+    ]
+}
